@@ -1,15 +1,16 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+  <div class="jumbotron" align= center>
     <h1>New post</h1>
 
-    <form method="POST" enctype="multipart/form-data" class="post-form">
-    {% csrf_token %}
-    <!-- form.as_p est connecté à PostUpdateView qui lui même est connecté à PostForm qui est connecté au model Post  -->
-    {{form.as_p}}
-    <button type="submit" class="save btn btn-default">Save</button>
-    </form>
-
+      <form method="POST" enctype="multipart/form-data" class="post-form">
+        {% csrf_token %}
+        <!-- form.as_p est connecté à PostCreateView et qui lui même est connecté à PostForm qui est connecté au model Post  -->
+        {{form.as_p}}
+        <button type="submit" class="save btn btn-primary">Save</button>
+      </form>
+      
     <script>var editor = new MediumEditor('.editable');</script>
-
+  </div>
 {% endblock %}

@@ -26,7 +26,10 @@ class PostListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Recupérer les catégories de la liste des posts puis les compter
         query1 = Post.objects.values('category').annotate(Count('category')).order_by()
+        # Récupérer les commentaires liés à chaque post (__gt=0 veut dire que le post doit avoir au moins un commentaire)
+        # puis on affiche les posts selon le nombre de commentaire (et on s'arrête aux 3 premiers)
         query2 = Post.objects.annotate(comments_count=Count('comments')).filter(comments_count__gt=0).order_by('-comments_count')[:4]
         context["categories"] = query1
         context["popular"] = query2
@@ -44,6 +47,18 @@ class CreatePostView(LoginRequiredMixin,CreateView):
 
     model = Post
 
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        user = request.user
+        if form.is_valid():
+            post = form.save(commit = False)
+            post.author = user
+            return self.form_valid(form)
+        else:
+            return self.form_valid(form)
+
+
 
 class PostUpdateView(LoginRequiredMixin,UpdateView):
     login_url = '/login/'
@@ -52,6 +67,7 @@ class PostUpdateView(LoginRequiredMixin,UpdateView):
     form_class = PostForm
 
     model = Post
+
 
 
 class PostDeleteView(LoginRequiredMixin,DeleteView):
@@ -67,6 +83,17 @@ class DraftListView(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         return Post.objects.filter(published_date__isnull=True).order_by('created_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Recupérer les catégories de la liste des posts puis les compter
+        query1 = Post.objects.values('category').annotate(Count('category')).order_by()
+        # Récupérer les commentaires liés à chaque post (__gt=0 veut dire que le post doit avoir au moins un commentaire)
+        # puis on affiche les posts selon le nombre de commentaire (et on s'arrête aux 3 premiers)
+        query2 = Post.objects.annotate(comments_count=Count('comments')).filter(comments_count__gt=0).order_by('-comments_count')[:4]
+        context["categories"] = query1
+        context["popular"] = query2
+        return context
 
 
 #######################################
@@ -88,6 +115,7 @@ def add_comment_to_post(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+            comment.author = request.user
             comment.save()
             return redirect('post_detail', pk=post.pk)
     else:

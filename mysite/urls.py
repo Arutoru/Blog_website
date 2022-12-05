@@ -25,4 +25,5 @@ urlpatterns = [
     # Tant que le formulaire de login.html ne sera pas valide pour toute action qui recommande une connexion on sera redirigé vers cette page
     path('accounts/login/', views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('accounts/logout/', views.LogoutView.as_view(), name='logout', kwargs={'next_page': '/'}),
+    path('accounts/', include("accounts.urls", namespace="accounts")),
 ]

@@ -1,8 +1,10 @@
 {% extends "blog/base.html" %}
 {% block content %}
-  <form action="" method="post">{% csrf_token %}
-    <!-- {{object}} revient à appeler la méthode __str__ -->
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <input class='btn btn-danger' type="submit" value="Confirm" />
-  </form>
+  <div class="jumbotron" align= center>
+    <form action="" method="post">{% csrf_token %}
+      <!-- {{object}} revient à appeler la méthode __str__ -->
+      <p>Are you sure you want to delete "{{ object }}"?</p>
+      <input class='btn btn-danger' type="submit" value="Confirm" />
+    </form>
+  </div>
 {% endblock %}

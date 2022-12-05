@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<section class="container">
+<section>
   <div class="site-content">
     <div class="post">
         {% for post in post_list %}
@@ -11,7 +11,7 @@
               <img src="{{post.image.url}}" class="img"/>
             </div>
             <div class="post-info flex-row">
-              <span><i class="fas fa-user text-gray"></i>{{post.author}}</span>
+              <span><i class="fas fa-user text-gray"></i>&nbsp {{post.author}}</span>
               <span><i class="fas fa-calendar-alt text-gray date"></i> {{ post.published_date|date:"j M Y"}}</span>
               <span> Comments: {{ post.approve_comments.count }}</span>
             </div>
@@ -31,36 +31,37 @@
       <div class="categorie">
         <h2>Categories</h2>
         <ul class="categorie-list">
+          <!-- confère postlistview -->
           {% for category in categories %}
             <li class="list-items" data-aos="fade-left" data-aos-delay="100">{{category.category}}<span>({{category.category__count}})</span></li>
           {% endfor %}
         </ul>
 
-    <div class="popular-post">
-      <h2 >Popular Post</h2>
-      {% for post in popular %}
-        <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
-          <div class="post-image">
-            <div>
-              <img src="{{post.image.url}}" class="img"/>
+        <div class="popular-post">
+          <h2 >Popular Post</h2>
+          <!-- confère postlistview -->
+          {% for post in popular %}
+            <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+              <div class="post-image">
+                <div>
+                  <img src="{{post.image.url}}" class="img"/>
+                </div>
+                <div class="post-info flex-row">
+                  <span><i class="fas fa-user text-gray"></i>&nbsp {{post.author}}</span>
+                  <span><i class="fas fa-calendar-alt text-gray date"></i> {{ post.published_date|date:"j M Y"}}</span>
+                  <span> Comments: {{ post.approve_comments.count }}</span>
+                </div>
+              </div>
             </div>
-            <div class="post-info flex-row">
-              <span><i class="fas fa-user text-gray"></i>{{post.author}}</span>
-              <span><i class="fas fa-calendar-alt text-gray date"></i> {{ post.published_date|date:"j M Y"}}</span>
-              <span> Comments: {{ post.approve_comments.count }}</span>
+            <div class = "post-tittle">
+              <p> {{ post.title }} </p>
+              <button class="btn post-btn">
+                <a href="{% url 'post_detail' pk=post.pk %}">Read more &nbsp;<i class="fas fa-arrow-right"></i></a>
+              </button>
             </div>
-          </div>
+          {% endfor %}
         </div>
-        <div class = "post-tittle">
-          <p> {{ post.title }} </p>
-          <button class="btn post-btn">
-            <a href="{% url 'post_detail' pk=post.pk %}">Read more &nbsp;<i class="fas fa-arrow-right"></i></a>
-          </button>
-        </div>
-      {% endfor %}
-      </div>
-    </aside>
-
+      </aside>
   </div>
 </section>
 {% endblock %}
