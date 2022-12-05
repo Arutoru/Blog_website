@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load bootstrap4 %}
 
 <html>
   <head>
@@ -24,7 +25,6 @@
 
     {# Custom CSS#}
     <link rel="stylesheet" href="{% static 'css/style1.css' %}">
-    <link rel="stylesheet" href="{% static 'node_modules/aos/dist/aos.css' %}">
     <link rel="stylesheet" href="{% static 'node_modules/@fortawesome/fontawesome-free/css/all.css' %}"/>
     {# Fonts#}
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Russo+One" rel="stylesheet">
@@ -85,8 +85,6 @@
       <main>
 
     {# SCRIPTS#}
-    <script type="text/javascript" src="{% static 'node_modules/jquery/dist/jquery.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'node_modules/aos/dist/aos.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
   </body>
 </html>
